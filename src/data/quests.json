@@ -1,0 +1,165 @@
+{
+  "quests": [
+    {
+      "dialect_mode_id": 1,
+      "sequence_number": 1,
+      "type": 1,
+      "question": "あの映画、「ほんま」泣けたわ。の「」内の関西弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "本当に",
+          "is_correct": true
+        },
+        {
+          "id": 2,
+          "content": "実は",
+          "is_correct": false
+        },
+        {
+          "id": 3,
+          "content": "確かに",
+          "is_correct": false
+        },
+        {
+          "id": 4,
+          "content": "絶対に",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 1,
+      "sequence_number": 2,
+      "type": 1,
+      "question": "「どないしたん？」の「」内の関西弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "どうしたの？",
+          "is_correct": true
+        },
+        {
+          "id": 2,
+          "content": "どうして？",
+          "is_correct": false
+        },
+        {
+          "id": 3,
+          "content": "何してるの？",
+          "is_correct": false
+        },
+        {
+          "id": 4,
+          "content": "どういうつもり？",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 1,
+      "sequence_number": 3,
+      "type": 1,
+      "question": "この店、「けったい」な雰囲気やな。の「」内の関西弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "面白い",
+          "is_correct": false
+        },
+        {
+          "id": 2,
+          "content": "奇抜",
+          "is_correct": false
+        },
+        {
+          "id": 3,
+          "content": "不思議",
+          "is_correct": false
+        },
+        {
+          "id": 4,
+          "content": "奇妙",
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 1,
+      "sequence_number": 4,
+      "type": 1,
+      "question": "「ほな」、また明日な！の「」内の関西弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "じゃあ",
+          "is_correct": false
+        },
+        {
+          "id": 2,
+          "content": "それでは",
+          "is_correct": true
+        },
+        {
+          "id": 3,
+          "content": "さようなら",
+          "is_correct": false
+        },
+        {
+          "id": 4,
+          "content": "お疲れ様",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 1,
+      "sequence_number": 5,
+      "type": 1,
+      "question": "これ、「なおし」といて〜の「」内の関西弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "修理して",
+          "is_correct": false
+        },
+        {
+          "id": 2,
+          "content": "片付けて",
+          "is_correct": true
+        },
+        {
+          "id": 3,
+          "content": "直して",
+          "is_correct": false
+        },
+        {
+          "id": 4,
+          "content": "治して",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 1,
+      "sequence_number": 6,
+      "type": 2,
+      "question": "「放出」の読み方として正しいものは？",
+      "answer": "はなてん"
+    },
+    {
+      "dialect_mode_id": 1,
+      "sequence_number": 7,
+      "type": 2,
+      "question": "「住道」の読み方として正しいものは？",
+      "answer": "すみのどう"
+    },
+    {
+      "dialect_mode_id": 1,
+      "sequence_number": 8,
+      "type": 2,
+      "question": "「枚方」の読み方として正しいものは？",
+      "answer": "ひらかた"
+    }
+  ]
+}
