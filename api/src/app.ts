@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // 認証ルーティング
 app.use('/auth', authRoutes);
