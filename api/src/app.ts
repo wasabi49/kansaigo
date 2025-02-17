@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-const PORT = 3000;
+const PORT = process.env.API_PORT || 8080;
 
 // 認証ルーティング
 app.use('/auth', authRoutes);
@@ -24,6 +24,6 @@ app.use('/quests', questsRoutes);
 app.use('/users', usersRoutes);
 
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log(`Server is running on ${PORT} `);
 });
