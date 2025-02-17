@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  api:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    ports:
+      - "8080:3000"
+    environment:
+      - NODE_ENV=development
+    command: >
+      sh -c "npm install &&
+             npx ts-node src/scripts/seed.ts &&
+             npm run dev"
