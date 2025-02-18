@@ -17,3 +17,19 @@ services:
             npm install &&
             npx ts-node src/scripts/seed.ts &&
             npm run dev"
+
+  client:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - BACKEND_URL=${BACKEND_URL:-http://localhost:8080}
+    command: >
+      sh -c "cd client &&
+            npm install &&
+            npm start"
