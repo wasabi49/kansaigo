@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  api:
+  server:
     image: node:latest
     working_dir: /app
     volumes:
@@ -13,7 +13,7 @@ services:
       - NODE_ENV=${NODE_ENV:-development}
       - FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-http://localhost:3000}
     command: >
-      sh -c "cd api &&
+      sh -c "cd server &&
             npm install &&
             npx ts-node src/scripts/seed.ts &&
             npm run dev"
