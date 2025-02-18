@@ -1,4 +1,5 @@
 {
+  "name": "server",
   "scripts": {
     "start": "node dist/app.js",
     "dev": " nodemon --legacy-watch --exec ts-node src/app.ts",

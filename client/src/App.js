@@ -3,13 +3,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
 function App() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api')
+    axios.get(`${API_URL}/auth/verify`)
       .then(response => {
-        setMessage(response.data.message);
+        setMessage(response.data);
       })
       .catch(error => {
         console.error('There was an error!', error);

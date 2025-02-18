@@ -10,7 +10,7 @@ router.post('/login', (req: Request, res: Response) => {
 
 // 認証確認
 router.get('/verify', (req: Request, res: Response) => {
-  res.send('Hello World');
+  res.send('auth/verify');
 });
 
 export default router;

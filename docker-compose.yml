@@ -5,7 +5,7 @@ services:
     image: node:latest
     working_dir: /app
     volumes:
-      - ./:/app
+      - ./server:/app
       - /app/node_modules
     ports:
       - "${BACKEND_PORT:-8080}:3000"
@@ -13,8 +13,7 @@ services:
       - NODE_ENV=${NODE_ENV:-development}
       - FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-http://localhost:3000}
     command: >
-      sh -c "cd server &&
-            npm install &&
+      sh -c "npm install &&
             npx ts-node src/scripts/seed.ts &&
             npm run dev"
 
@@ -22,14 +21,14 @@ services:
     image: node:latest
     working_dir: /app
     volumes:
-      - ./:/app
+      - ./client:/app
       - /app/node_modules
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
     environment:
+      - WATCHPACK_POLLING=true
       - NODE_ENV=${NODE_ENV:-development}
-      - BACKEND_URL=${BACKEND_URL:-http://localhost:8080}
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL:-http://localhost:8080}
     command: >
-      sh -c "cd client &&
-            npm install &&
+      sh -c "npm install &&
             npm start"
