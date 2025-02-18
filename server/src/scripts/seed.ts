@@ -2,6 +2,7 @@ import { Database } from 'sqlite';
 import { getDb } from '../db';
 import questData from '../data/quests.json';
 import modeData from '../data/modes.json';
+import rankData from '../data/ranks.json';
 
 
 async function createTables(db: Database) {
@@ -99,6 +100,14 @@ async function seedData(db: Database) {
       await db.run(
         'INSERT INTO dialect_modes (id, name) VALUES (?, ?)',
         [mode.id, mode.name]
+      );
+    }
+
+    // ランクの登録を追加
+    for (const rank of rankData.ranks) {
+      await db.run(
+        'INSERT INTO ranks (dialect_mode_id, rank_name) VALUES (?, ?)',
+        [rank.dialect_mode_id, rank.rank_name]
       );
     }
 
