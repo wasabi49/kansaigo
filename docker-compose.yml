@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  server:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "${BACKEND_PORT:-8080}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-http://localhost:3000}
+    command: >
+      sh -c "cd server &&
+            npm install &&
+            npx ts-node src/scripts/seed.ts &&
+            npm run dev"
+
+  client:
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - WATCHPACK_POLLING=true
+      - NODE_ENV=${NODE_ENV:-development}
+      - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL:-http://localhost:8080}
+    command: >
+      sh -c "cd client &&
+            npm install &&
+            npm start"

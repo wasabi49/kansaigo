@@ -1,19 +1,25 @@
 {
   "name": "server",
-  "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
-  "dev": "concurrently \"npm run start\" \"npm run client\"",
-  "client": "cd ../client && npm start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/app.js",
+    "dev": " nodemon --legacy-watch --exec ts-node src/app.ts",
+    "build": "tsc",
+    "watch": "tsc -w"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "google-auth-library": "^9.15.1",
+    "sqlite": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/sqlite3": "^5.1.0",
+    "nodemon": "^3.1.9",
+    "sqlite3": "^5.1.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }
