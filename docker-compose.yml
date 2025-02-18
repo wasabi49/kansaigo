@@ -8,9 +8,10 @@ services:
       - ./:/app
       - /app/node_modules
     ports:
-      - "${API_PORT:-8080}:3000"
+      - "${BACKEND_PORT:-8080}:3000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=${NODE_ENV:-development}
+      - FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-http://localhost:3000}
     command: >
       sh -c "cd api &&
             npm install &&
