@@ -4,7 +4,8 @@
     "start": "node dist/app.js",
     "dev": " nodemon --legacy-watch --exec ts-node src/app.ts",
     "build": "tsc",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "seed": "ts-node src/scripts/seed.ts"
   },
   "dependencies": {
     "body-parser": "^1.20.3",
