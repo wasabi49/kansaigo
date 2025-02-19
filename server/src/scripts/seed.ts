@@ -59,7 +59,8 @@ async function createTables(db: Database) {
     );
 
     CREATE TABLE choices (
-      id INTEGER NOT NULL,
+      id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      choice_id INTEGER NOT NULL,
       quest_id INTEGER NOT NULL,
       content TEXT NOT NULL,
       is_correct BOOLEAN NOT NULL,
@@ -131,7 +132,7 @@ async function seedData(db: Database) {
       if (quest.type === 1 && quest.choices) {
         for (const choice of quest.choices) {
           await db.run(
-            'INSERT INTO choices (id, quest_id, content, is_correct) VALUES (?, ?, ?, ?)',
+            'INSERT INTO choices (choice_id, quest_id, content, is_correct) VALUES (?, ?, ?, ?)',
             [choice.id, lastID, choice.content, choice.is_correct]
           );
         }
