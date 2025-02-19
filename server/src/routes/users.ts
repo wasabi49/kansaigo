@@ -36,10 +36,9 @@ router.get('/:userId/stats/current-break', async (req: Request, res: Response) =
 
     if (!result) {
       res.status(404).json({ error: 'user not found' });
-      return;
+    } else {
+      res.json({ current_break: result.current_break });
     }
-
-    res.json({ current_break: result.current_break });
   } catch (error) {
     console.error('Error getting break:', error);
     res.status(500).json({ error: 'server error' });
