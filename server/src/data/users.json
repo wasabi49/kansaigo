@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "name": "田中太郎",
+      "mail_address": "tanaka@example.com",
+      "current_streak": 3,
+      "current_break": 0
+    },
+    {
+      "name": "山田花子",
+      "mail_address": "yamada@example.com",
+      "current_streak": 0,
+      "current_break": 2
+    },
+    {
+      "name": "佐藤次郎",
+      "mail_address": "sato@example.com",
+      "current_streak": 5,
+      "current_break": 0
+    }
+  ]
+} 

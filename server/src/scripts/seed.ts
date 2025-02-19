@@ -3,6 +3,9 @@ import { getDb } from '../db';
 import questSeedData from '../data/quests.json';
 import modeSeedData from '../data/modes.json';
 import rankSeedData from '../data/ranks.json';
+import userSeedData from '../data/users.json';
+import userRankSeedData from '../data/user_ranks.json';
+import questProgressSeedData from '../data/quest_progress.json';
 import ModeSeedData from '../types/ModeSeedData';
 import QuestSeedData from '../types/QuestSeedData';
 import RankSeedData from '../types/RankSeedData';
@@ -140,6 +143,30 @@ async function seedData(db: Database) {
           [lastID, quest.answer]
         );
       }
+    }
+
+    // ユーザーの登録
+    for (const user of userSeedData.users) {
+      await db.run(
+        'INSERT INTO users (name, mail_address, current_streak, current_break) VALUES (?, ?, ?, ?)',
+        [user.name, user.mail_address, user.current_streak, user.current_break]
+      );
+    }
+
+    // ユーザーランクの登録
+    for (const userRank of userRankSeedData.user_ranks) {
+      await db.run(
+        'INSERT INTO user_ranks (user_id, rank_id) VALUES (?, ?)',
+        [userRank.user_id, userRank.rank_id]
+      );
+    }
+
+    // クエスト進捗の登録
+    for (const progress of questProgressSeedData.quest_progress) {
+      await db.run(
+        'INSERT INTO quest_progress (user_id, quest_id) VALUES (?, ?)',
+        [progress.user_id, progress.quest_id]
+      );
     }
 
     await db.run('COMMIT');
