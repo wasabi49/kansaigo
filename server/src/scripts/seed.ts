@@ -1,8 +1,15 @@
 import { Database } from 'sqlite';
 import { getDb } from '../db';
-import questData from '../data/quests.json';
-import modeData from '../data/modes.json';
-import rankData from '../data/ranks.json';
+import questSeedData from '../data/quests.json';
+import modeSeedData from '../data/modes.json';
+import rankSeedData from '../data/ranks.json';
+import ModeSeedData from '../types/ModeSeedData';
+import QuestSeedData from '../types/QuestSeedData';
+import RankSeedData from '../types/RankSeedData';
+
+const modeData : ModeSeedData = modeSeedData;
+const questData : QuestSeedData = questSeedData;
+const rankData : RankSeedData = rankSeedData;
 
 
 async function createTables(db: Database) {
@@ -96,15 +103,15 @@ async function seedData(db: Database) {
 
   try {
     // モードの登録
-    for (const mode of modeData.dialect_modes) {
+    for (const mode of modeSeedData.dialect_modes) {
       await db.run(
         'INSERT INTO dialect_modes (id, name) VALUES (?, ?)',
         [mode.id, mode.name]
       );
     }
 
-    // ランクの登録を追加
-    for (const rank of rankData.ranks) {
+    // ランクの登録
+    for (const rank of rankSeedData.ranks) {
       await db.run(
         'INSERT INTO ranks (dialect_mode_id, rank_name) VALUES (?, ?)',
         [rank.dialect_mode_id, rank.rank_name]
@@ -112,7 +119,7 @@ async function seedData(db: Database) {
     }
 
     // 問題の登録
-    for (const quest of questData.quests) {
+    for (const quest of questSeedData.quests) {
       const { lastID } = await db.run(
         'INSERT INTO quests (dialect_mode_id, sequence_number, type, question) VALUES (?, ?, ?, ?)',
         [quest.dialect_mode_id, quest.sequence_number, quest.type, quest.question]
