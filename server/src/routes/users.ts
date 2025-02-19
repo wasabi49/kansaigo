@@ -25,8 +25,25 @@ router.get('/:userId/stats/current-streak', async (req: Request, res: Response) 
 });
 
 // ユーザーの現在の非継続期間
-router.get('/:userId/stats/current-break', (req: Request, res: Response) => {
-  res.send('Hello World');
+router.get('/:userId/stats/current-break', async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const db = await getDb();
+    const result = await db.get<{current_break: number}>(
+      'SELECT current_break FROM users WHERE id = ?',
+      userId
+    );
+
+    if (!result) {
+      res.status(404).json({ error: 'user not found' });
+      return;
+    }
+
+    res.json({ current_break: result.current_break });
+  } catch (error) {
+    console.error('Error getting break:', error);
+    res.status(500).json({ error: 'server error' });
+  }
 });
 
 // ユーザーのランク
