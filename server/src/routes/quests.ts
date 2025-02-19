@@ -39,50 +39,54 @@ router.post('/:questId/answer', async (req: Request, res: Response) => {
     const db = await getDb();
     const questId: number = parseInt(req.params.questId);
     const answer: string = req.body.answer;
-    const result: { type: number } | undefined = await db.get<{ type: number } | undefined>('SELECT type FROM quests WHERE id = ?', [questId]);
+    const result = await db.get<{ type: number }>(
+      'SELECT type FROM quests WHERE id = ?',
+      [questId]
+    );
 
-    if (result === undefined) {
+    if (!result) {
       console.error(`Quest type not found: ${questId}`);
       res.status(404).json({ error: 'Quest type not found' });
+      return;
     }
-    const questType: number | undefined = result?.type;
 
-    if (questType === 1) {
+    if (result.type === 1) {
       // 選択肢クエスト
       const answerId: number = parseInt(answer);
-      const choices: { id: number, content: string, is_correct: boolean }[] | undefined = await db.all<{ id: number, content: string, is_correct: boolean }[]>('SELECT id, content, is_correct FROM choices WHERE quest_id = ?', [questId]);
-      if (choices === undefined) {
+      const choices = await db.all<{ id: number, choice_id: number, content: string, is_correct: boolean }[]>(
+        'SELECT id, choice_id, content, is_correct FROM choices WHERE quest_id = ?',
+        [questId]
+      );
+
+      if (!choices) {
         console.error(`Choices not found: ${questId}`);
         res.status(404).json({ error: 'Choices not found' });
+        return;
       }
-      const choice: { id: number, content: string, is_correct: boolean } | undefined = choices.find(choice => choice.id === answerId);
-      if (choice === undefined) {
+
+      const choice = choices.find(choice => choice.choice_id === answerId);
+      if (!choice) {
         console.error(`Choice not found: ${answerId}`);
         res.status(404).json({ error: 'Choice not found' });
-      } else {
-        if (choice.is_correct) {
-          // 正解
-          console.log(`Correct answer: ${choice.content}`);
-          const correctAnswer: string | undefined = await db.get<string | undefined>('SELECT id, content  FROM choices WHERE id = ? AND is_correct = 1', [questId]);
-          if (correctAnswer === undefined) {
-            console.error(`Correct answer not found: ${questId}`);
-            res.status(404).json({ error: 'Correct answer not found' });
-          }
-          res.json({ is_correct: true, correct_answer: correctAnswer });
-        } else {
-          // 不正解
-          const correctAnswer: string | undefined = await db.get<string | undefined>('SELECT id, content  FROM choices WHERE id = ? AND is_correct = 1', [questId]);
-          if (correctAnswer === undefined) {
-            console.error(`Correct answer not found: ${questId}`);
-            res.status(404).json({ error: 'Correct answer not found' });
-          }
-          console.log(`Incorrect answer: ${choice.content}`);
-          res.json({ is_correct: false, correct_answer: correctAnswer });
-        }
+        return;
       }
 
+      const correctAnswer = await db.get<{ content: string }>(
+        'SELECT content FROM choices WHERE quest_id = ? AND is_correct = 1',
+        [questId]
+      );
 
-    } else if (questType === 2) {
+      if (!correctAnswer) {
+        console.error(`Correct answer not found: ${questId}`);
+        res.status(404).json({ error: 'Correct answer not found' });
+        return;
+      }
+
+      res.json({
+        is_correct: choice.is_correct,
+        correct_answer: correctAnswer.content
+      });
+    } else if (result.type === 2) {
       // 難読地名クエスト
       const result: { content: string } | undefined = await db.get<{ content: string } | undefined>('SELECT id, content FROM answers WHERE quest_id = ?', [questId]);
       if (result === undefined) {

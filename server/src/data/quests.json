@@ -160,6 +160,253 @@
       "type": 2,
       "question": "「枚方」の読み方として正しいものは？",
       "answer": "ひらかた"
+    },
+    
+    
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 1,
+      "type": 1,
+      "question": "約束時間に「こーへん」。の「」内の神戸弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "きた",
+          "is_correct": false
+        },
+        {
+          "id": 2,
+          "content": "来ない",
+          "is_correct": true
+        },
+        {
+          "id": 3,
+          "content": "着いた",
+          "is_correct": false
+        },
+        {
+          "id": 4,
+          "content": "行かない",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 2,
+      "type": 1,
+      "question": "「何しとう？」の「」内の神戸弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "何がしたい？",
+          "is_correct": false
+        },
+        {
+          "id": 2,
+          "content": "どういうこと？",
+          "is_correct": false
+        },
+        {
+          "id": 3,
+          "content": "何で？",
+          "is_correct": false
+        },
+        {
+          "id": 4,
+          "content": "何してるの？",
+          "is_correct": true
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 3,
+      "type": 1,
+      "question": "最後まで「きばりや」。の「」内の神戸弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "耐えて",
+          "is_correct": false
+        },
+        {
+          "id": 2,
+          "content": "諦めるな",
+          "is_correct": false
+        },
+        {
+          "id": 3,
+          "content": "頑張って",
+          "is_correct": true
+        },
+        {
+          "id": 4,
+          "content": "気を引き締めて",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 4,
+      "type": 1,
+      "question": "「ちょー」、相手にしてよ。の「」内の神戸弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "ねぇ",
+          "is_correct": true
+        },
+        {
+          "id": 2,
+          "content": "もう",
+          "is_correct": false
+        },
+        {
+          "id": 3,
+          "content": "なぁ",
+          "is_correct": false
+        },
+        {
+          "id": 4,
+          "content": "おい",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 5,
+      "type": 1,
+      "question": "これ「ほかして」～。「」内の神戸弁の意味として最も適切なものは？",
+      "choices": [
+        {
+          "id": 1,
+          "content": "どけて",
+          "is_correct": false
+        },
+        {
+          "id": 2,
+          "content": "捨てて",
+          "is_correct": true
+        },
+        {
+          "id": 3,
+          "content": "投げて",
+          "is_correct": false
+        },
+        {
+          "id": 4,
+          "content": "焼いて",
+          "is_correct": false
+        }
+      ]
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 6,
+      "type": 2,
+      "question": "「淡河」の読み方として正しいものは？",
+      "answer": "おうご"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 7,
+      "type": 2,
+      "question": "「宅原」の読み方として正しいものは？",
+      "answer": "えいばら"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 8,
+      "type": 2,
+      "question": "「淳和」の読み方として正しいものは？",
+      "answer": "じゅんな"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 9,
+      "type": 2,
+      "question": "「木見」の読み方として正しいものは？",
+      "answer": "こうみ"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 10,
+      "type": 2,
+      "question": "「近江」の読み方として正しいものは？",
+      "answer": "きんこう"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 11,
+      "type": 2,
+      "question": "「勝成」の読み方として正しいものは？",
+      "answer": "よしなり"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 12,
+      "type": 2,
+      "question": "「小河」の読み方として正しいものは？",
+      "answer": "おうご"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 13,
+      "type": 2,
+      "question": "「衝原」の読み方として正しいものは？",
+      "answer": "つくはら"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 14,
+      "type": 2,
+      "question": "「五百蔵」の読み方として正しいものは？",
+      "answer": "いおろい"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 15,
+      "type": 2,
+      "question": "「紫合」の読み方として正しいものは？",
+      "answer": "ゆうだ"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 16,
+      "type": 2,
+      "question": "「櫨谷」の読み方として正しいものは？",
+      "answer": "はせたに"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 17,
+      "type": 2,
+      "question": "「唐櫃」の読み方として正しいものは？",
+      "answer": "からと"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 18,
+      "type": 2,
+      "question": "「乙木」の読み方として正しいものは？",
+      "answer": "おとぎ"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 19,
+      "type": 2,
+      "question": "「陸ノ町」の読み方として正しいものは？",
+      "answer": "くがのちょう"
+    },
+    {
+      "dialect_mode_id": 3,
+      "sequence_number": 20,
+      "type": 2,
+      "question": "「弥栄」の読み方として正しいものは？",
+      "answer": "やさか"
     }
   ]
 }
