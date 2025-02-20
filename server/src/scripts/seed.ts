@@ -83,9 +83,26 @@ async function createTables(db: Database) {
       UNIQUE (user_id, quest_id)
     );
 
+    CREATE TABLE providers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      provider_name TEXT NOT NULL UNIQUE
+    );
+
+    CREATE TABLE user_authentications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      provider_id INTEGER NOT NULL,
+      sub TEXT NOT NULL,
+      avatar_url TEXT,
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (provider_id) REFERENCES providers(id),
+      UNIQUE (provider_id, sub)
+    );
+
     CREATE INDEX idx_quests_dialect_mode ON quests(dialect_mode_id);
     CREATE INDEX idx_quest_progress_user ON quest_progress(user_id);
     CREATE INDEX idx_user_ranks_user ON user_ranks(user_id);
+    CREATE INDEX idx_user_authentications_sub ON user_authentications(sub);
   `);
 }
 
@@ -97,6 +114,8 @@ async function dropTables(db: Database) {
     DROP TABLE IF EXISTS quests;
     DROP TABLE IF EXISTS user_ranks;
     DROP TABLE IF EXISTS ranks;
+    DROP TABLE IF EXISTS user_authentications;
+    DROP TABLE IF EXISTS providers;
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS dialect_modes;
   `);
@@ -169,6 +188,12 @@ async function seedData(db: Database) {
         [progress.user_id, progress.quest_id]
       );
     }
+
+    // プロバイダーの登録
+    await db.run(
+      'INSERT INTO providers (id, provider_name) VALUES (?, ?)',
+      [1, 'google']
+    );
 
     await db.run('COMMIT');
     console.log('データの登録が完了しました');
