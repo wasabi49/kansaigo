@@ -18,7 +18,18 @@ export function initializePassport() {
     try {
       const db = await getDb();
       const user = await db.get<UserAuth>(
-        'SELECT u.*, ua.* FROM users u LEFT JOIN user_authentications ua ON u.id = ua.user_id WHERE u.id = ?',
+        `SELECT
+          u.id as id,
+          u.name,
+          u.mail_address,
+          u.current_streak,
+          u.current_break,
+          ua.provider_id,
+          ua.sub,
+          ua.avatar_url
+        FROM users u
+        LEFT JOIN user_authentications ua ON u.id = ua.user_id
+        WHERE u.id = ?`,
         [id]
       );
       done(null, user);
