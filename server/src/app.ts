@@ -2,17 +2,15 @@ import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
-import { googleStrategy } from './auth/google';
-import { UserAuth } from './types/User';
 import authRoutes from './routes/auth';
 import dialectsRoutes from './routes/dialects';
 import questsRoutes from './routes/quests';
 import usersRoutes from './routes/users';
-import { requestLogger, responseLogger } from './logger';
-import { getDb } from './db';
+import { requestLogger, responseLogger } from './middleware/logger';
 import { initializePassport } from './auth/passport';
 import connectSqlite3 from 'connect-sqlite3';
 import { getConfig } from './config';
+import { isAuthenticated } from './middleware/auth';
 
 const config = getConfig();
 
@@ -58,20 +56,18 @@ const PORT = process.env.BACKEND_PORT || 8080;
 // リクエストログ出力
 app.use(requestLogger);
 
+// レスポンスログ出力
+app.use(responseLogger);
+
 // 認証ルーティング
 app.use('/auth', authRoutes);
 
-// 方言ルーティング
-app.use('/dialects', dialectsRoutes);
+// 保護されたルート
+app.use('/dialects', isAuthenticated, dialectsRoutes);
+app.use('/quests', isAuthenticated, questsRoutes);
+app.use('/users', isAuthenticated, usersRoutes);
 
-// クエストルーティング
-app.use('/quests', questsRoutes);
 
-// ユーザールーティング
-app.use('/users', usersRoutes);
-
-// レスポンスログ出力
-app.use(responseLogger);
 
 app.listen(3000, () => {
   console.log(`Server is running on ${PORT} `);
