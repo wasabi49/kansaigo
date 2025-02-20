@@ -92,8 +92,6 @@ router.post('/:questId/answer', async (req: Request, res: Response) => {
       if (result === undefined) {
         console.error(`Correct answer not found: ${questId}`);
         res.status(404).json({ error: 'Correct answer not found' });
-      } else {
-        const correctAnswer = result.content;
       }
       const correctAnswer: string | undefined = result?.content;
 

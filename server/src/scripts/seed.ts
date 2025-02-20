@@ -9,6 +9,7 @@ import questProgressSeedData from '../data/quest_progress.json';
 import ModeSeedData from '../types/ModeSeedData';
 import QuestSeedData from '../types/QuestSeedData';
 import RankSeedData from '../types/RankSeedData';
+import bcrypt from 'bcrypt';
 
 const modeData : ModeSeedData = modeSeedData;
 const questData : QuestSeedData = questSeedData;
@@ -33,7 +34,7 @@ async function createTables(db: Database) {
 
     CREATE TABLE users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
+      name TEXT DEFAULT '名無し' NOT NULL,
       mail_address TEXT NOT NULL UNIQUE,
       current_streak INTEGER DEFAULT 0 CHECK (current_streak >= 0),
       current_break INTEGER DEFAULT 0 CHECK (current_break >= 0)
@@ -83,9 +84,36 @@ async function createTables(db: Database) {
       UNIQUE (user_id, quest_id)
     );
 
+    CREATE TABLE providers (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      provider_name TEXT NOT NULL UNIQUE
+    );
+
+    CREATE TABLE user_authentications (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      provider_id INTEGER NOT NULL,
+      sub TEXT NOT NULL,
+      avatar_url TEXT,
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (provider_id) REFERENCES providers(id),
+      UNIQUE (provider_id, sub)
+    );
+
+    CREATE TABLE credentials (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      mail_address TEXT NOT NULL UNIQUE,
+      password_hash TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+
     CREATE INDEX idx_quests_dialect_mode ON quests(dialect_mode_id);
     CREATE INDEX idx_quest_progress_user ON quest_progress(user_id);
     CREATE INDEX idx_user_ranks_user ON user_ranks(user_id);
+    CREATE INDEX idx_user_authentications_sub ON user_authentications(sub);
   `);
 }
 
@@ -97,8 +125,11 @@ async function dropTables(db: Database) {
     DROP TABLE IF EXISTS quests;
     DROP TABLE IF EXISTS user_ranks;
     DROP TABLE IF EXISTS ranks;
+    DROP TABLE IF EXISTS user_authentications;
+    DROP TABLE IF EXISTS providers;
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS dialect_modes;
+    DROP TABLE IF EXISTS credentials;
   `);
 }
 
@@ -169,6 +200,12 @@ async function seedData(db: Database) {
         [progress.user_id, progress.quest_id]
       );
     }
+
+    // プロバイダーの登録
+    await db.run(
+      'INSERT INTO providers (id, provider_name) VALUES (?, ?)',
+      [1, 'google']
+    );
 
     await db.run('COMMIT');
     console.log('データの登録が完了しました');

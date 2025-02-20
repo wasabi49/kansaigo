@@ -13,6 +13,8 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/express": "^5.0.0"
+    "@types/connect-sqlite3": "^0.9.5",
+    "@types/express": "^5.0.0",
+    "@types/express-session": "^1.18.1"
   }
 }
