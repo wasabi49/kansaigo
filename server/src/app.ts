@@ -17,8 +17,7 @@ const config = getConfig();
 // アプリケーションの設定
 const app = express();
 app.use(cors({
-  // origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  origin: 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -26,6 +25,8 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
 
 const SQLiteStore = connectSqlite3(session);
 
@@ -58,6 +59,8 @@ app.use(requestLogger);
 
 // レスポンスログ出力
 app.use(responseLogger);
+
+
 
 // 認証ルーティング
 app.use('/auth', authRoutes);

@@ -14,8 +14,9 @@ export interface User {
 // データベースから取得される認証情報を含むユーザー型
 export interface UserAuth extends User {
   user_id: number;
-  provider_id: number;
-  sub: string;
+  provider_id?: number;
+  sub?: string;
+  password_hash?: string;
 }
 
 // Express.Userインターフェースの拡張

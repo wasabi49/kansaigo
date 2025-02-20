@@ -2,15 +2,19 @@ import passport from 'passport';
 import { getDb } from '../db';
 import { UserAuth } from '../types/User';
 import { googleStrategy } from './google';
+import { localStrategy } from './localStrategy';
 
 // Passport設定の初期化
 export function initializePassport() {
   // Google認証ストラテジーの設定
   passport.use(googleStrategy);
 
+  // ローカル認証ストラテジーの設定
+  passport.use('local', localStrategy);
+
   // セッションにユーザー情報を保存
   passport.serializeUser((user: UserAuth, done) => {
-    done(null, user.user_id);
+    done(null, user.id);
   });
 
   // セッションからユーザー情報を復元
@@ -29,10 +33,15 @@ export function initializePassport() {
           ua.avatar_url
         FROM users u
         LEFT JOIN user_authentications ua ON u.id = ua.user_id
+        LEFT JOIN credentials c ON u.id = c.user_id
         WHERE u.id = ?`,
         [id]
       );
-      done(null, user);
+      if (user) {
+        done(null, user);
+      } else {
+        done(null, false);
+      }
     } catch (error) {
       done(error);
     }
