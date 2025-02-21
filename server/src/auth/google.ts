@@ -16,6 +16,7 @@ export const googleStrategy = new GoogleStrategy(
   async (accessToken: string, refreshToken: string, profile: Profile, done: VerifyCallback) => {
     try {
       const db = await getDb();
+      const now = new Date().toISOString();
       const provider = await db.get('SELECT id FROM providers WHERE provider_name = ?', ['google']);
       if (!provider) {
         throw new Error('Provider not found');
@@ -35,8 +36,16 @@ export const googleStrategy = new GoogleStrategy(
           );
 
           await db.run(
-            'INSERT INTO user_authentications (user_id, provider_id, sub, avatar_url) VALUES (?, ?, ?, ?)',
-            [userResult.lastID, provider.id, profile._json.sub, profile.photos?.[0]?.value || null]
+            `INSERT INTO user_authentications
+              (user_id, provider_id, sub, avatar_url, created_at)
+              VALUES (?, ?, ?, ?, ?)`,
+            [
+              userResult.lastID,
+              provider.id,
+              profile._json.sub,
+              profile.photos?.[0]?.value || null,
+              now
+            ]
           );
 
           userAuth = await db.get<UserAuth>(
