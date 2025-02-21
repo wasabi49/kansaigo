@@ -19,22 +19,23 @@ router.get(
 router.post("/local/login", loginRateLimiter, (req: Request, res: Response) => {
   passport.authenticate("local", (err: Error, user: UserAuth, info: any) => {
     if (err) {
-      return res.status(500).json({ message: err.message });
+      res.status(500).json({ message: err.message });
+    }else if (!user) {
+      res.status(401).json({ message: info.message });
+    }else{
+      req.login(user, (err: Error) => {
+        if (err) {
+          res.status(500).json({ message: err.message });
+        }else{
+          // IPアドレスを取得して試行回数をリセット
+          const ip = req.headers['x-forwarded-for'] as string ||
+            req.socket.remoteAddress ||
+          'unknown';
+          resetLoginAttempts(ip);
+          res.json({ message: "Login successful" });
+        }
+      });
     }
-    if (!user) {
-      return res.status(401).json({ message: info.message });
-    }
-    req.login(user, (err: Error) => {
-      if (err) {
-        return res.status(500).json({ message: err.message });
-      }
-      // IPアドレスを取得して試行回数をリセット
-      const ip = req.headers['x-forwarded-for'] as string ||
-        req.socket.remoteAddress ||
-        'unknown';
-      resetLoginAttempts(ip);
-      return res.json({ message: "Login successful" });
-    });
   })(req, res);
 });
 

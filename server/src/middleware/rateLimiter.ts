@@ -25,50 +25,50 @@ export async function loginRateLimiter(req: Request, res: Response, next: NextFu
   ]);
 
   // メールアドレスの総試行回数をチェック
-  if (mailAttempt && mailAttempt.total >= MAX_ATTEMPTS * 3) {  // IPより緩い制限
+  if (mailAttempt && mailAttempt.total >= MAX_ATTEMPTS * 3) {
     res.status(429).json({
-      message: 'This account is temporarily locked. Please try again later.'
+      message: `Too many login attempts. Please try again in ${Math.ceil(LOCK_TIME / 60000)} minutes`
     });
-  }
-
-  // 試行記録を取得または作成
-  let attempt = await db.get(
-    'SELECT * FROM login_attempts WHERE ip = ?',
-    [ip]
-  );
-
-  if (!attempt) {
-    await db.run(
-      'INSERT INTO login_attempts (ip, attempts, last_attempt) VALUES (?, ?, ?)',
-      [ip, 0, now]
+  }else{
+      // 試行記録を取得または作成
+    let attempt = await db.get(
+      'SELECT * FROM login_attempts WHERE ip = ?',
+      [ip]
     );
-    attempt = { ip, attempts: 0, last_attempt: now };
+
+    if (!attempt) {
+      await db.run(
+        'INSERT INTO login_attempts (ip, attempts, last_attempt) VALUES (?, ?, ?)',
+        [ip, 0, now]
+      );
+      attempt = { ip, attempts: 0, last_attempt: now };
+    }
+
+    // ロック時間が経過していたらリセット
+    if (now - attempt.last_attempt > LOCK_TIME) {
+      await db.run(
+        'UPDATE login_attempts SET attempts = 0, last_attempt = ? WHERE ip = ?',
+        [now, ip]
+      );
+      attempt.attempts = 0;
+    }
+
+    // 最大試行回数を超えている場合
+    if (attempt.attempts >= MAX_ATTEMPTS) {
+      const timeLeft = LOCK_TIME - (now - attempt.last_attempt);
+      res.status(429).json({
+        message: `Too many login attempts. Please try again in ${Math.ceil(timeLeft / 60000)} minutes`
+      });
+    }else{
+        // 試行回数を増やす
+      await db.run(
+        'UPDATE login_attempts SET attempts = attempts + 1, last_attempt = ? WHERE ip = ?',
+        [now, ip]
+      );
+
+      next();
+    }
   }
-
-  // ロック時間が経過していたらリセット
-  if (now - attempt.last_attempt > LOCK_TIME) {
-    await db.run(
-      'UPDATE login_attempts SET attempts = 0, last_attempt = ? WHERE ip = ?',
-      [now, ip]
-    );
-    attempt.attempts = 0;
-  }
-
-  // 最大試行回数を超えている場合
-  if (attempt.attempts >= MAX_ATTEMPTS) {
-    const timeLeft = LOCK_TIME - (now - attempt.last_attempt);
-    res.status(429).json({
-      message: `Too many login attempts. Please try again in ${Math.ceil(timeLeft / 60000)} minutes`
-    });
-  }
-
-  // 試行回数を増やす
-  await db.run(
-    'UPDATE login_attempts SET attempts = attempts + 1, last_attempt = ? WHERE ip = ?',
-    [now, ip]
-  );
-
-  next();
 }
 
 // ログイン成功時のリセット関数
