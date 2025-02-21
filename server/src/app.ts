@@ -11,6 +11,7 @@ import { initializePassport } from './auth/passport';
 import connectSqlite3 from 'connect-sqlite3';
 import { getConfig } from './config';
 import { isAuthenticated } from './middleware/auth';
+import { cleanupExpiredSessions } from './scripts/cleanupSessions';
 
 const config = getConfig();
 
@@ -75,6 +76,9 @@ app.use('/users', isAuthenticated, usersRoutes);
 app.listen(3000, () => {
   console.log(`Server is running on ${PORT} `);
 });
+
+// 1時間ごとにクリーンアップを実行
+setInterval(cleanupExpiredSessions, 60 * 60 * 1000);
 
 
 

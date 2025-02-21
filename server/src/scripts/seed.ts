@@ -37,7 +37,10 @@ async function createTables(db: Database) {
       name TEXT DEFAULT '名無し' NOT NULL,
       mail_address TEXT NOT NULL UNIQUE,
       current_streak INTEGER DEFAULT 0 CHECK (current_streak >= 0),
-      current_break INTEGER DEFAULT 0 CHECK (current_break >= 0)
+      current_break INTEGER DEFAULT 0 CHECK (current_break >= 0),
+      profile_image BLOB,
+      profile_image_type TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE user_ranks (
@@ -95,6 +98,7 @@ async function createTables(db: Database) {
       provider_id INTEGER NOT NULL,
       sub TEXT NOT NULL,
       avatar_url TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users(id),
       FOREIGN KEY (provider_id) REFERENCES providers(id),
       UNIQUE (provider_id, sub)

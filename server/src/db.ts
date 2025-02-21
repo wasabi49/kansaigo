@@ -8,4 +8,11 @@ export async function getDb(): Promise<Database> {
   });
 }
 
+export async function getSessionDb(): Promise<Database> {
+  return open({
+    filename: './database/sessions.sqlite',
+    driver: sqlite3.Database
+  });
+}
+
 export default getDb();
