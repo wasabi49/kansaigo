@@ -1,10 +1,21 @@
 import express, { Request, Response, Router } from 'express';
 import { getDb } from '../db';
+import { isAuthenticated } from '../middleware/auth';
 
 const router: Router = express.Router();
 
+// ユーザー情報を取得
+router.get('/', isAuthenticated, async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'server error' });
+  }
+});
+
 // ユーザーの現在の継続期間
-router.get('/:userId/stats/current-streak', async (req: Request, res: Response) => {
+router.get('/:userId/stats/current-streak', isAuthenticated, async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const db = await getDb();
@@ -25,7 +36,7 @@ router.get('/:userId/stats/current-streak', async (req: Request, res: Response) 
 });
 
 // ユーザーの現在の非継続期間
-router.get('/:userId/stats/current-break', async (req: Request, res: Response) => {
+router.get('/:userId/stats/current-break', isAuthenticated, async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const db = await getDb();
@@ -46,7 +57,7 @@ router.get('/:userId/stats/current-break', async (req: Request, res: Response) =
 });
 
 // ユーザーのランク
-router.get('/:userId/ranks', (req: Request, res: Response) => {
+router.get('/:userId/ranks', isAuthenticated, (req: Request, res: Response) => {
   res.send('Hello World');
 });
 
