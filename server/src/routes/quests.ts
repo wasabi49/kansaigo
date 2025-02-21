@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { getDb } from '../db';
+
 const router = express.Router();
 
 type Quest = {

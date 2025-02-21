@@ -1,11 +1,7 @@
-import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import bcrypt from 'bcrypt';
 import { getDb } from '../db';
 import { UserAuth } from '../types/User';
-import { getConfig } from '../config';
-
-const config = getConfig();
 
 export const localStrategy = new LocalStrategy(
   {

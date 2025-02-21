@@ -21,22 +21,26 @@ export function initializePassport() {
   passport.deserializeUser(async (id: number, done) => {
     try {
       const db = await getDb();
-      const user = await db.get<UserAuth>(
+      const user = await db.get(
         `SELECT
-          u.id as id,
+          u.id,
           u.name,
           u.mail_address,
           u.current_streak,
           u.current_break,
+          u.created_at,
+          u.profile_image,
           ua.provider_id,
           ua.sub,
-          ua.avatar_url
+          ua.avatar_url,
+          c.password_hash
         FROM users u
         LEFT JOIN user_authentications ua ON u.id = ua.user_id
         LEFT JOIN credentials c ON u.id = c.user_id
         WHERE u.id = ?`,
         [id]
       );
+
       if (user) {
         done(null, user);
       } else {
