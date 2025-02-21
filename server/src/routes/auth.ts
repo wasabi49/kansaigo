@@ -3,6 +3,7 @@ import passport from "passport";
 import { getDb } from "../db";
 import { UserAuth } from "../types/User";
 import bcrypt from "bcrypt";
+import { loginRateLimiter, resetLoginAttempts } from '../middleware/rateLimiter';
 
 const router = express.Router();
 const FRONT_URL = process.env.FRONT_URL || "http://localhost:3000";
@@ -14,7 +15,7 @@ router.get(
 );
 
 // ローカルログイン認証のエンドポイント
-router.post("/local/login", (req: Request, res: Response) => {
+router.post("/local/login", loginRateLimiter, (req: Request, res: Response) => {
   passport.authenticate("local", (err: Error, user: UserAuth, info: any) => {
     if (err) {
       return res.status(500).json({ message: err.message });
@@ -26,6 +27,11 @@ router.post("/local/login", (req: Request, res: Response) => {
       if (err) {
         return res.status(500).json({ message: err.message });
       }
+      // IPアドレスを取得して試行回数をリセット
+      const ip = req.headers['x-forwarded-for'] as string ||
+                req.socket.remoteAddress ||
+                'unknown';
+      resetLoginAttempts(ip);
       return res.json({ message: "Login successful" });
     });
   })(req, res);

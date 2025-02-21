@@ -110,15 +110,28 @@ async function createTables(db: Database) {
       FOREIGN KEY (user_id) REFERENCES users(id)
     );
 
+    CREATE TABLE login_attempts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      ip TEXT NOT NULL,
+      mail_address TEXT,
+      attempts INTEGER DEFAULT 0,
+      last_attempt INTEGER NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(ip, mail_address)
+    );
+
     CREATE INDEX idx_quests_dialect_mode ON quests(dialect_mode_id);
     CREATE INDEX idx_quest_progress_user ON quest_progress(user_id);
     CREATE INDEX idx_user_ranks_user ON user_ranks(user_id);
     CREATE INDEX idx_user_authentications_sub ON user_authentications(sub);
+    CREATE INDEX idx_login_attempts_ip ON login_attempts(ip);
+    CREATE INDEX idx_login_attempts_mail ON login_attempts(mail_address);
   `);
 }
 
 async function dropTables(db: Database) {
   await db.exec(`
+    DROP TABLE IF EXISTS login_attempts;
     DROP TABLE IF EXISTS quest_progress;
     DROP TABLE IF EXISTS choices;
     DROP TABLE IF EXISTS answers;
