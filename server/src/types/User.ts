@@ -5,6 +5,8 @@ export interface User {
   mail_address: string;
   current_streak: number;
   current_break: number;
+  stamina: number;
+  last_stamina_update: string;
   created_at: string;
   profile_image_url?: string;  // Base64エンコードされた画像URL
   ranks: {                    // ユーザーの各方言のランク
