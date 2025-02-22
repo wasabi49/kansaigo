@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { VStack, Box, Flex, Image, Text } from "@yamada-ui/react"; // ← Image を追加！
+import { VStack, Box, Flex, Image, Text, HStack } from "@yamada-ui/react";
 import { useNavigate } from "react-router-dom";
-import StatusBadges from "../components/StatusBadge";
+import StatusBadge from "../components/StatusBadge";
 import Footer from "../components/Footer";
 
 const Home = () => {
@@ -16,17 +16,14 @@ const Home = () => {
   });
 
   return (
-    <Box 
-      minH="100vh" 
-      p="4"
-      pb="80px"
-      bgImage="url('/assets/background.png')"
-      bgSize="cover"
-      bgPosition="center"
-    >
-      {/* ヘッダー（中央寄せのステータスバッジ） */}
+    <Box minH="100vh" p="4" pb="80px"> {/* 背景画像の指定は削除 */}
+      {/* ヘッダー（StatusBadgeを直接記述して横並びに） */}
       <Flex justify="center" align="center" mt="4">
-        <StatusBadges />
+        <HStack spacing="4">
+          <StatusBadge imgSrc="/assets/icon-usi.png" count={4} />
+          <StatusBadge imgSrc="/assets/icon-fire.png" count={169} />
+          <StatusBadge imgSrc="/assets/icon-heart.png" count={13} />
+        </HStack>
       </Flex>
 
       {/* 次のクエスト */}
@@ -87,7 +84,7 @@ const Home = () => {
         </Box>
       </Flex>
 
-      {/* レッスン一覧（牛アイコン） */}
+      {/* レッスン一覧（牛アイコンを中央配置） */}
       <VStack mt="6" spacing="4" align="center">
         {[1, 2, 3, 4, 5].map((num) => (
           <Flex key={num} justify="center" align="center" w="100%">
