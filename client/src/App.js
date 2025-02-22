@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import axios from "axios";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
@@ -11,27 +11,17 @@ import Footer from "./components/Footer";
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
-function App() {
-  const [message, setMessage] = useState("");
+function AppContent() {
+  const location = useLocation(); // 現在のページURLを取得
 
-  useEffect(() => {
-    axios
-      .get(`${API_URL}/auth/verify`)
-      .then((response) => {
-        setMessage(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
-  }, []);
+  // Footerを表示するページ
+  const showFooter = location.pathname === "/" || location.pathname === "/profile";
 
   return (
-    <Router>
-      <div className="App" style={{ background: "none"}}>
-        {message && <h1>{message}</h1>}
+    <div className="App" style={{ background: "none" }}>
 
-        {/* ログインテスト用のコード（必要なら有効化） */}
-        {/* <h1>Googleログインテスト</h1>
+      {/* ログインテスト用のコード（必要なら有効化） */}
+      {/* <h1>Googleログインテスト</h1>
         <button onClick={() => {
           window.location.href = `${API_URL}/auth/google`;
         }}>Google Login</button>
@@ -70,19 +60,40 @@ function App() {
           window.location.href = `${API_URL}/dialects`;
         }}>dialects</button> */}
 
-        {/* ルーティング設定 */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/question" element={<Question />} />
-          <Route path="/result" element={<Result />} />
-        </Routes>
+      {/* ルーティング設定 */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/question" element={<Question />} />
+        <Route path="/result" element={<Result />} />
+      </Routes>
 
-        {/* ナビゲーションバー */}
-        <Footer />
-      </div>
+      {/* Home と Profile のみ Footer を表示 */}
+      {showFooter && <Footer />}
+    </div>
+  );
+}
+
+function App() {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/auth/verify`)
+      .then((response) => {
+        setMessage(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+      });
+  }, []);
+
+  return (
+    <Router>
+      {message && <h1>{message}</h1>}
+      <AppContent />
     </Router>
   );
 }
