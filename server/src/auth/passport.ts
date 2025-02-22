@@ -28,6 +28,8 @@ export function initializePassport() {
           u.mail_address,
           u.current_streak,
           u.current_break,
+          u.stamina,
+          u.last_stamina_update,
           u.created_at,
           u.profile_image,
           ua.provider_id,

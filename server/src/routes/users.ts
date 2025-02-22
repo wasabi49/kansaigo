@@ -26,7 +26,7 @@ router.get('/profile', async (req: Request, res: Response) => {
   try {
     const db = await getDb();
     const user = await db.get(
-      'SELECT id, name, mail_address, current_streak, current_break, profile_image, profile_image_type, created_at FROM users WHERE id = ?',
+      'SELECT id, name, mail_address, current_streak, current_break, stamina, last_stamina_update, profile_image, profile_image_type, created_at FROM users WHERE id = ?',
       [req.user!.id]
     );
 
@@ -62,6 +62,8 @@ router.get('/profile', async (req: Request, res: Response) => {
         mail_address: user.mail_address,
         current_streak: user.current_streak,
         current_break: user.current_break,
+        stamina: user.stamina,
+        last_stamina_update: user.last_stamina_update,
         created_at: user.created_at,
         profile_image_url: profileImageUrl,
         ranks: {

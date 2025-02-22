@@ -38,6 +38,8 @@ async function createTables(db: Database) {
       mail_address TEXT NOT NULL UNIQUE,
       current_streak INTEGER DEFAULT 0 CHECK (current_streak >= 0),
       current_break INTEGER DEFAULT 0 CHECK (current_break >= 0),
+      stamina INTEGER DEFAULT 5 CHECK (stamina >= 0 AND stamina <= 5),
+      last_stamina_update DATETIME DEFAULT CURRENT_TIMESTAMP,
       profile_image BLOB,
       profile_image_type TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
