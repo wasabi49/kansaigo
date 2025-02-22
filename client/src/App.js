@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import axios from "axios";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
-import Login from "./pages/Login";
+import Login from "./test/Login";
 import Register from "./pages/Register";
 import Question from "./pages/Question";
 import Result from "./pages/Result";
@@ -24,7 +24,7 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/question/:id" element={<Question />} />
         <Route path="/result" element={<Result />} />
