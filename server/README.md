@@ -262,7 +262,8 @@ Google 認証後のコールバック処理
 ```json
 {
   "is_correct": "boolean",
-  "correct_answer": "string"
+  "correct_answer": "string",
+  "xp_gained": "number"
 }
 ```
 
@@ -300,7 +301,8 @@ Google 認証後のコールバック処理
     "osaka": "string",
     "kyoto": "string",
     "kobe": "string"
-  }
+  },
+  "xp": "number"
 }
 ```
 

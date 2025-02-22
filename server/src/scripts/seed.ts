@@ -42,7 +42,8 @@ async function createTables(db: Database) {
       last_stamina_update DATETIME DEFAULT CURRENT_TIMESTAMP,
       profile_image BLOB,
       profile_image_type TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      xp INTEGER DEFAULT 0
     );
 
     CREATE TABLE user_ranks (
@@ -84,6 +85,7 @@ async function createTables(db: Database) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
       quest_id INTEGER NOT NULL,
+      completion_count INTEGER DEFAULT 0 CHECK (completion_count >= 0),
       FOREIGN KEY (user_id) REFERENCES users(id),
       FOREIGN KEY (quest_id) REFERENCES quests(id),
       UNIQUE (user_id, quest_id)

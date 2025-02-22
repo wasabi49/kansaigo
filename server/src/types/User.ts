@@ -1,5 +1,5 @@
 // ユーザー基本情報
-export interface User {
+export type User = {
   id: number;
   name: string;
   mail_address: string;
@@ -9,12 +9,13 @@ export interface User {
   last_stamina_update: string;
   created_at: string;
   profile_image_url?: string;  // Base64エンコードされた画像URL
+  xp: number;
   ranks: {                    // ユーザーの各方言のランク
     osaka?: string;
     kyoto?: string;
     kobe?: string;
   };
-}
+};
 
 // データベースから取得される認証情報を含むユーザー型
 export interface UserAuth extends User {
