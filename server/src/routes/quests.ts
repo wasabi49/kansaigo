@@ -13,7 +13,7 @@ type Quest = {
     id: number,
     content: string
   }[];
-  is_available: boolean;
+  is_available?: boolean;
 }
 
 
@@ -22,12 +22,28 @@ router.get('/:questId', async (req: Request, res: Response) => {
   try {
     const db = await getDb();
     const questId = req.params.questId;
-    const quest: Quest | undefined = await db.get<Quest | undefined>('SELECT * FROM quests WHERE id = ?', [questId]);
+
+    // クエストの基本情報を取得
+    const quest: Quest | undefined = await db.get<Quest | undefined>(
+      'SELECT * FROM quests WHERE id = ?',
+      [questId]
+    );
+
     if (quest === undefined) {
       console.error(`Quest not found: ${questId}`);
       res.status(404).json({ error: 'Quest not found' });
       return;
     }
+
+    // タイプ1（選択肢問題）の場合は選択肢も取得
+    if (quest.type === 1) {
+      const choices = await db.all(
+        'SELECT choice_id as id, content FROM choices WHERE quest_id = ?',
+        [questId]
+      );
+      quest.choices = choices;
+    }
+
     res.json(quest);
   } catch (error) {
     console.error(error);

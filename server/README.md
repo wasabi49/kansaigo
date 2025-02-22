@@ -93,8 +93,11 @@ SESSION_SECRET=your-secret-key         # セッションの暗号化キー（本
 **レスポンス**
 
 - 成功時 (201): `{ "message": "User created and logged in" }`
-- ユーザー既存時 (400): `{ "message": "User already exists" }`
-- サーバーエラー時 (500): `{ "message": "Failed to create user" }`
+
+**エラーレスポンス**
+
+- 400: `{ "message": "User already exists" }` - ユーザーが既に存在
+- 500: `{ "message": "Failed to create user" }` - ユーザー作成失敗
 
 #### ローカルログイン POST `/auth/local/login`
 
@@ -112,8 +115,12 @@ SESSION_SECRET=your-secret-key         # セッションの暗号化キー（本
 **レスポンス**
 
 - 成功時 (200): `{ "message": "Login successful" }`
-- 認証失敗時 (401): `{ "message": "メールアドレスまたはパスワードが間違っています" }`
-- サーバーエラー時 (500): `{ "message": "server error" }`
+
+**エラーレスポンス**
+
+- 401: `{ "message": "メールアドレスまたはパスワードが間違っています" }` - 認証失敗
+- 429: `{ "error": "Too many attempts" }` - ログイン試行回数超過
+- 500: `{ "message": "server error" }` - サーバーエラー
 
 #### Google 認証 GET `/auth/google`
 
@@ -151,7 +158,10 @@ Google 認証後のコールバック処理
 ]
 ```
 
-- エラー時 (500): `{ "error": "Failed to fetch dialect modes" }`
+**エラーレスポンス**
+
+- 401: `{ "error": "Unauthorized" }` - 未認証
+- 500: `{ "error": "Failed to fetch dialect modes" }` - 取得失敗
 
 #### 方言のクエスト一覧取得 GET `/dialects/:dialectId/quests`
 
@@ -175,7 +185,10 @@ Google 認証後のコールバック処理
 ]
 ```
 
-- エラー時 (500): `{ "error": "Failed to fetch quests" }`
+**エラーレスポンス**
+
+- 401: `{ "error": "Unauthorized" }` - 未認証
+- 500: `{ "error": "Failed to fetch quests" }` - 取得失敗
 
 ### クエスト関連 API（要認証）
 
@@ -190,25 +203,39 @@ Google 認証後のコールバック処理
 **レスポンス**
 
 - 成功時 (200)
+  - 選択肢問題（type: 1）の場合:
 
 ```json
 {
   "id": "number",
   "sequence_number": "number",
-  "type": "number",
+  "type": 1,
   "question": "string",
   "choices": [
     {
       "id": "number",
       "content": "string"
     }
-  ],
-  "is_available": "boolean"
+  ]
 }
 ```
 
-- クエスト未発見時 (404): `{ "error": "Quest not found" }`
-- エラー時 (500): `{ "error": "Failed to fetch quest" }`
+- 難読地名問題（type: 2）の場合:
+
+```json
+{
+  "id": "number",
+  "sequence_number": "number",
+  "type": 2,
+  "question": "string"
+}
+```
+
+**エラーレスポンス**
+
+- 401: `{ "error": "Unauthorized" }` - 未認証
+- 404: `{ "error": "Quest not found" }` - クエスト未発見
+- 500: `{ "error": "Failed to fetch quest" }` - 取得失敗
 
 #### クエスト回答 POST `/quests/:questId/answer`
 
@@ -226,6 +253,8 @@ Google 認証後のコールバック処理
 }
 ```
 
+注: 選択肢クエストの場合は選択肢 ID、難読地名クエストの場合は回答文字列
+
 **レスポンス**
 
 - 成功時 (200)
@@ -239,25 +268,18 @@ Google 認証後のコールバック処理
 
 **エラーレスポンス**
 
-- スタミナ不足時 (400)
-
-```json
-{
-  "error": "Not enough stamina",
-  "next_recovery": "2024-03-20T10:30:00.000Z"
-}
-```
-
-- クエスト未発見時 (404): `{ "error": "Quest type not found" }`
-- 選択肢未発見時 (404): `{ "error": "Choice not found" }`
-- 正解未発見時 (404): `{ "error": "Correct answer not found" }`
-- エラー時 (500): `{ "error": "Failed to answer quest" }`
+- 400: `{ "error": "Not enough stamina", "next_recovery": "timestamp" }` - スタミナ不足
+- 401: `{ "error": "Unauthorized" }` - 未認証
+- 404: `{ "error": "Quest type not found" }` - クエスト未発見
+- 404: `{ "error": "Choice not found" }` - 選択肢未発見
+- 404: `{ "error": "Correct answer not found" }` - 正解データ未発見
+- 500: `{ "error": "Failed to answer quest" }` - 回答処理失敗
 
 ### ユーザー関連 API（要認証）
 
 #### プロフィール取得 GET `/users/profile`
 
-ログインユーザーの情報を取得
+ログインユーザーの情報を取得（スタミナは自動的に最新の値に更新）
 
 **レスポンス**
 
@@ -282,8 +304,13 @@ Google 認証後のコールバック処理
 }
 ```
 
-- ユーザー未発見時 (404): `{ "error": "user not found" }`
-- エラー時 (500): `{ "error": "server error" }`
+注: `profile_image_url`は Base64 エンコードされた画像 URL
+
+**エラーレスポンス**
+
+- 401: `{ "error": "Unauthorized" }` - 未認証
+- 404: `{ "error": "user not found" }` - ユーザー未発見
+- 500: `{ "error": "server error" }` - サーバーエラー
 
 #### プロフィール画像アップロード POST `/users/profile/image`
 
@@ -306,12 +333,15 @@ Google 認証後のコールバック処理
 }
 ```
 
+注: `profile_image_url`は Base64 エンコードされた画像 URL
+
 **エラーレスポンス**
 
-- ファイルサイズ超過時 (400): `{ "message": "file size is under 5MB" }`
-- ファイル未アップロード時 (400): `{ "message": "file is not uploaded" }`
-- 画像ファイル以外時 (400): `{ "message": "image file only" }`
-- エラー時 (500): `{ "message": "server error" }`
+- 400: `{ "message": "file size is under 5MB" }` - ファイルサイズ超過
+- 400: `{ "message": "file is not uploaded" }` - ファイル未アップロード
+- 400: `{ "message": "image file only" }` - 不正なファイル形式
+- 401: `{ "error": "Unauthorized" }` - 未認証
+- 500: `{ "message": "server error" }` - サーバーエラー
 
 ### 共通仕様
 
@@ -321,7 +351,9 @@ Google 認証後のコールバック処理
 - 未認証の場合は 401 エラー
 - セッションベースの認証を使用
 
-#### エラーレスポンス
+#### エラーレスポンス形式
+
+基本形式:
 
 ```json
 {
@@ -329,14 +361,47 @@ Google 認証後のコールバック処理
 }
 ```
 
+追加情報がある場合:
+
+```json
+{
+  "error": "string",
+  "message": "string",
+  "details": "object"
+}
+```
+
+例）スタミナ不足:
+
+```json
+{
+  "error": "Not enough stamina",
+  "next_recovery": "2024-03-20T10:30:00.000Z"
+}
+```
+
+例）レート制限:
+
+```json
+{
+  "error": "Too many requests",
+  "retry_after": 60
+}
+```
+
 #### ステータスコード
 
-- 200: 成功
-- 201: 作成成功
-- 400: リクエスト不正
-- 401: 未認証
-- 404: リソース未発見
-- 500: サーバーエラー
+- 200: 成功（リクエスト成功）
+- 201: 作成成功（新規リソース作成）
+- 400: リクエスト不正（バリデーションエラー、スタミナ不足など）
+- 401: 未認証（ログインが必要）
+- 403: 権限なし（アクセス権限がない）
+- 404: リソース未発見（指定されたリソースが存在しない）
+- 409: 競合（既に存在するリソース）
+- 413: ペイロード過大（ファイルサイズ超過など）
+- 415: サポートされていないメディアタイプ（不正なファイル形式）
+- 429: リクエスト過多（レート制限超過）
+- 500: サーバーエラー（内部エラー）
 
 ### スタミナシステム
 
