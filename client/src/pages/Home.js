@@ -1,13 +1,10 @@
 import { VStack, Box, Flex, Image, Text, HStack } from "@yamada-ui/react";
-import { useNavigate } from "react-router-dom";
 import StatusBadge from "../components/StatusBadge";
 import Footer from "../components/Footer";
 
 const Home = () => {
-  const navigate = useNavigate();
-
   return (
-    <Box minH="100vh" p="4" pb="80px"> {/* 背景画像の指定は削除 */}
+    <Box minH="100vh" p="4" pb="80px">
       {/* ヘッダー（StatusBadgeを直接記述して横並びに） */}
       <Flex justify="center" align="center" mt="4">
         <HStack spacing="4">
@@ -17,43 +14,29 @@ const Home = () => {
         </HStack>
       </Flex>
 
-      {/* 吹き出し風の「大阪弁について知る」 */}
+      {/* 吹き出し風のデザイン（bubble1.png を使用） */}
       <Flex justify="center" mt="6">
-        <Box
-          position="relative"
-          bg="white"
-          border="2px solid black"
-          borderRadius="20px"
-          px="6"
-          py="3"
-          fontSize="lg"
-          fontWeight="bold"
-          textAlign="center"
-          boxShadow="md"
-          _hover={{ cursor: "pointer", transform: "scale(1.05)", transition: "0.2s" }}
-          onClick={() => navigate("/about-kansaiben")}
-          _before={{
-            content: '""',
-            position: "absolute",
-            bottom: "-14px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            borderLeft: "12px solid transparent",
-            borderRight: "12px solid transparent",
-            borderTop: "14px solid black",
-          }}
-          _after={{
-            content: '""',
-            position: "absolute",
-            bottom: "-12px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            borderLeft: "12px solid transparent",
-            borderRight: "12px solid transparent",
-            borderTop: "12px solid white",
-          }}
-        >
-          大阪弁について知る
+        <Box position="relative" width="300px" height="auto">
+          <Image 
+            src="/assets/bubble1.png"  // 吹き出し画像
+            alt="吹き出し"
+            width="100%"
+            height="auto"
+          />
+          <Text
+            position="absolute"
+            top="45%"  // ← 50% → 45% に変更して、少し上に調整
+            left="50%"
+            transform="translate(-50%, -50%)"
+            fontSize="lg"
+            fontWeight="bold"
+            textAlign="center"
+            width="90%"  // ← テキストが吹き出し幅にフィットするように
+            lineHeight="1.4"  // ← 行間を調整
+            color="black"
+          >
+            大阪弁について知る
+          </Text>
         </Box>
       </Flex>
 
@@ -62,8 +45,6 @@ const Home = () => {
         {[1, 2, 3, 4, 5].map((num) => (
           <Flex key={num} justify="center" align="center" w="100%">
             <Box
-              onClick={() => navigate(`/question/${num}`)}
-              _hover={{ cursor: "pointer", transform: "scale(1.05)", transition: "0.2s" }}
               display="flex"
               alignItems="center"
               justifyContent="center"
