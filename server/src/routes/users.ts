@@ -3,6 +3,7 @@ import { getDb } from '../db';
 import { User } from '../types/User';
 import multer from 'multer';
 import sharp from 'sharp';
+import { calculateCurrentStamina } from '../utils/stamina';
 
 const router: Router = express.Router();
 
@@ -30,9 +31,22 @@ router.get('/profile', async (req: Request, res: Response) => {
       [req.user!.id]
     );
 
+
     if (!user) {
       res.status(404).json({ error: 'user not found' });
     } else {
+      // スタミナの計算
+      const currentStamina = calculateCurrentStamina(user.stamina, user.last_stamina_update);
+
+      // スタミナが更新されている場合はDBを更新
+      if (currentStamina !== user.stamina) {
+        await db.run(
+          'UPDATE users SET stamina = ?, last_stamina_update = CURRENT_TIMESTAMP WHERE id = ?',
+          [currentStamina, user.id]
+        );
+        user.stamina = currentStamina;
+      }
+
       // ユーザーのランク情報を取得
       const ranks = await db.all(`
         SELECT dm.name as dialect_name, r.rank_name
@@ -62,7 +76,7 @@ router.get('/profile', async (req: Request, res: Response) => {
         mail_address: user.mail_address,
         current_streak: user.current_streak,
         current_break: user.current_break,
-        stamina: user.stamina,
+        stamina: currentStamina,
         last_stamina_update: user.last_stamina_update,
         created_at: user.created_at,
         profile_image_url: profileImageUrl,
@@ -76,6 +90,7 @@ router.get('/profile', async (req: Request, res: Response) => {
       res.json(responseUser);
     }
   } catch (error) {
+    console.error('Error fetching user profile:', error);
     res.status(500).json({ error: 'server error' });
   }
 });
