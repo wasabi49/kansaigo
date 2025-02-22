@@ -18,3 +18,14 @@ export const fetchDialects = async () => {
 export const fetchQuestsByDialect = async (dialectId) => {
     return api.get(`/dialects/${dialectId}/quests`);
 };
+
+export const fetchQuestDetails = async (questId) => {
+    return api.get(`/quests/${questId}`);
+};
+
+export const submitAnswer = async (questId, answerId) => {
+    console.log("送信するデータ:", { answer: answerId }); // IDを送る
+    return api.post(`/quests/${questId}/answer`, { answer: answerId });
+  };
+  
+  
