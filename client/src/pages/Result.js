@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button2 from "../components/Button2"; // 実際のパスに合わせて変更してください
+import Button from "../components/Button"; // 実際のパスに合わせて変更してください
 
 const Result = () => {
   const navigate = useNavigate();
@@ -77,7 +77,7 @@ const Result = () => {
         />
 
       {/* ボタン */}
-      <Button2 onClick={() => navigate("/")}>XPを受け取る</Button2>
+      <Button onClick={() => navigate("/")}>XPを受け取る</Button>
     </div>
   );
 };
