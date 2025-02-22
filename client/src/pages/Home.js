@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { VStack, Box, Flex, Image, Text, HStack } from "@yamada-ui/react";
 import { useNavigate } from "react-router-dom";
 import StatusBadge from "../components/StatusBadge";
@@ -6,14 +5,6 @@ import Footer from "../components/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
-
-  // ユーザーの現在のクエスト進行状況
-  const [currentQuest, setCurrentQuest] = useState({
-    id: 1,
-    title: "クエスト 1",
-    description: "難読地名問題 - 大阪",
-    link: "/question/1",
-  });
 
   return (
     <Box minH="100vh" p="4" pb="80px"> {/* 背景画像の指定は削除 */}
@@ -24,24 +15,6 @@ const Home = () => {
           <StatusBadge imgSrc="/assets/icon-fire.png" count={169} />
           <StatusBadge imgSrc="/assets/icon-heart.png" count={13} />
         </HStack>
-      </Flex>
-
-      {/* 次のクエスト */}
-      <Flex justify="center" mt="6">
-        <Box
-          bg="white"
-          border="2px solid black"
-          borderRadius="12px"
-          px="6"
-          py="3"
-          textAlign="center"
-          boxShadow="md"
-          _hover={{ cursor: "pointer", transform: "scale(1.05)", transition: "0.2s" }}
-          onClick={() => navigate(currentQuest.link)}
-        >
-          <Text fontSize="md" fontWeight="bold">{currentQuest.title}</Text>
-          <Text fontSize="sm">{currentQuest.description}</Text>
-        </Box>
       </Flex>
 
       {/* 吹き出し風の「大阪弁について知る」 */}
