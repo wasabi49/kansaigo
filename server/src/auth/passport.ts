@@ -35,14 +35,14 @@ export function initializePassport() {
           ua.provider_id,
           ua.sub,
           ua.avatar_url,
-          c.password_hash
+          c.password_hash,
+          u.xp
         FROM users u
         LEFT JOIN user_authentications ua ON u.id = ua.user_id
         LEFT JOIN credentials c ON u.id = c.user_id
         WHERE u.id = ?`,
         [id]
       );
-
       if (user) {
         done(null, user);
       } else {
