@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Box, VStack, Image, HStack, IconButton, Text, keyframes } from "@yamada-ui/react";
 import CustomButton from "../components/Button";
 import Card from "../components/Card";
@@ -12,6 +13,7 @@ const fadeIn = keyframes`
 `;
 
 const Question = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
