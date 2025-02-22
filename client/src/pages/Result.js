@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect } from "react"; 
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button"; // 実際のパスに合わせて変更してください
+import CustomButton from "../components/Button"; // カスタムボタンを使用
 
 const Result = () => {
   const navigate = useNavigate();
@@ -17,67 +17,87 @@ const Result = () => {
   }, []);
 
   return (
-    <div 
-      className="p-4"
+    <div
       style={{
         display: "flex",
-        flexDirection: "column", // 縦方向に並べる
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "100vh"
+        minHeight: "100vh",
+        gap: "20px",
+        textAlign: "center",
+        padding: "16px",
+        animation: "fadeIn 0.6s ease-in-out", // ふんわり表示のアニメーション
       }}
     >
-      <div 
+      {/* 吹き出しのコンテナ */}
+      <div
         style={{
+          position: "relative",
           display: "flex",
-          flexDirection: "column", // 縦に並べる
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative", // 親要素にrelativeを追加
+          animation: "bounceIn 0.8s ease-in-out", // ポップな動き
         }}
       >
-        {/* bubble3.png 画像 */}
-        <img 
-          src="/assets/bubble3.png" 
-          alt="bubble3" 
+        {/* 吹き出し画像 */}
+        <img
+          src="/assets/bubble3.png"
+          alt="bubble3"
           style={{
-            width: "80%", // 幅を80%に設定
-            maxWidth: "400px", // 最大幅を400pxに設定
-            height: "auto", // 高さは自動調整
-            marginBottom: "20px", // 下に余白を追加
+            width: "85%", // 吹き出しサイズを調整
+            maxWidth: "350px",
+            height: "auto",
           }}
         />
-        
-        {/* 画像の上に重ねるテキスト */}
-        <p 
+
+        {/* 吹き出し内のテキスト */}
+        <p
           style={{
-            position: "absolute", // 絶対配置
-            top: "50%", // 垂直中央
-            left: "50%", // 水平中央
-            transform: "translate(-50%, -50%)", // 完全に中央に配置
-            color: "black", // テキストカラー
-            fontSize: "24px", // フォントサイズ
-            fontWeight: "bold", // 太字
-            zIndex: 10, // 画像の上に表示
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            color: "black",
+            fontSize: "22px",
+            fontWeight: "bold",
+            width: "75%",
+            whiteSpace: "pre-wrap",
+            textAlign: "center",
+            lineHeight: "1.5",
           }}
         >
           飴ちゃんあげるわぁ～
         </p>
       </div>
-        {/* obachaan.png 画像 */}
-        <img 
-          src="/assets/obachaan.png" 
-          alt="obachaan" 
-          style={{
-            width: "80%", // 幅を80%に設定
-            maxWidth: "400px", // 最大幅を400pxに設定
-            height: "auto", // 高さは自動調整
-            marginTop: "20px", // 上に余白を追加
-          }}
-        />
 
-      {/* ボタン */}
-      <Button onClick={() => navigate("/")}>XPを受け取る</Button>
+      {/* おばちゃんの画像 */}
+      <img
+        src="/assets/obachaan.png"
+        alt="obachaan"
+        style={{
+          width: "50%", // 幅を調整
+          maxWidth: "230px",
+          height: "auto",
+          marginTop: "-5px", // 位置調整
+          animation: "fadeInUp 0.6s ease-in-out", // ふんわり表示
+        }}
+      />
+
+      {/* XP受け取りボタン */}
+      <CustomButton
+        text="XPを受け取る"
+        onClick={() => navigate("/")}
+        bgColor="#F9A31A"
+        textColor="white"
+        hoverColor="#E89217"
+        style={{
+          maxWidth: "260px", // 適度な幅に調整
+          fontSize: "18px",
+          boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.15)", // 立体感を追加
+        }}
+      />
     </div>
   );
 };
