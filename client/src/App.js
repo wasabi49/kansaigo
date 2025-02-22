@@ -66,9 +66,10 @@ function AppContent() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/question" element={<Question />} />
+        <Route path="/question/:id" element={<Question />} />
         <Route path="/result" element={<Result />} />
       </Routes>
+
 
       {/* Home と Profile のみ Footer を表示 */}
       {showFooter && <Footer />}
