@@ -78,7 +78,7 @@ const Home = () => {
             </Box>
           )}
           <StatusBadge imgSrc="/assets/icon-fire.png" count={169} />
-          <StatusBadge imgSrc="/assets/icon-heart.png" count={13} />
+          <StatusBadge imgSrc="/assets/icon-heart.png" count={4} />
         </HStack>
       </Flex>
 
