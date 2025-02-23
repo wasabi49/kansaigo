@@ -110,11 +110,6 @@ const Register = () => {
               />
             </Flex>
 
-            {/* パスワード注意書き */}
-            <Text fontSize="xs" color="gray.600" textAlign="left" width="100%" ml="2">
-              ※半角英字と数字を含む8文字以上
-            </Text>
-
             {/* パスワード確認 */}
             <Flex align="center" border="2px solid black" borderRadius="md" p="2" width="100%" height="50px">
               <Image src="/assets/icon-kagi.png" alt="鍵アイコン" boxSize="20px" mr="2" />
@@ -168,7 +163,7 @@ const Register = () => {
               color="blue.500" 
               cursor="pointer"
               textDecoration="underline"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/test/login")}
             >
               ログインする
             </Link>
