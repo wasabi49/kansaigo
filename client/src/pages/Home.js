@@ -1,6 +1,20 @@
-import { useState, useEffect } from "react";
-import { VStack, Box, Flex, Image, Text, HStack, Button, Modal, ModalOverlay, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@yamada-ui/react";
-import { useNavigate } from "react-router-dom";  
+import { useState, useEffect, useRef } from "react";
+import {
+  VStack,
+  Box,
+  Flex,
+  Image,
+  Text,
+  HStack,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@yamada-ui/react";
+import { useNavigate } from "react-router-dom";
 import { fetchDialects, fetchQuestsByDialect } from "../api/api";
 import StatusBadge from "../components/StatusBadge";
 import Footer from "../components/Footer";
@@ -18,20 +32,19 @@ const Home = () => {
   const [selectedDialect, setSelectedDialect] = useState(null);
   const [quests, setQuests] = useState([]);
 
-  // ✅ ページを開いたときに `localStorage` から選択中の方言を取得
+  const headerRef = useRef(null);
+
   useEffect(() => {
     const getDialects = async () => {
       try {
         const response = await fetchDialects();
         setDialects(response.data);
 
-        // `localStorage` から前回選択した方言を取得
         const savedDialect = localStorage.getItem("selectedDialect");
         if (savedDialect) {
-          const parsedDialect = JSON.parse(savedDialect);
-          setSelectedDialect(parsedDialect);
+          setSelectedDialect(JSON.parse(savedDialect));
         } else {
-          setSelectedDialect(response.data[0]); // 初回のみデフォルトを設定
+          setSelectedDialect(response.data[0]);
         }
       } catch (error) {
         console.error("方言の取得に失敗:", error);
@@ -41,37 +54,47 @@ const Home = () => {
     getDialects();
   }, []);
 
-  // ✅ 方言を選択したときに `localStorage` に保存
   const handleDialectSelect = (dialect) => {
     setSelectedDialect(dialect);
-    localStorage.setItem("selectedDialect", JSON.stringify(dialect)); // 保存
+    localStorage.setItem("selectedDialect", JSON.stringify(dialect));
     onClose();
   };
 
-  // ✅ `selectedDialect` が変わるたびにクエスト一覧を取得
   useEffect(() => {
     if (!selectedDialect) return;
-  
+
     const getQuests = async () => {
       try {
         const response = await fetchQuestsByDialect(selectedDialect.id);
-        console.log(`取得したクエスト一覧 (方言ID: ${selectedDialect.id})`, response.data);
-        setQuests(response.data.slice(0, 5)); // 🔥 5個だけ表示
+        setQuests(response.data.slice(0, 5));
       } catch (error) {
         console.error("クエスト一覧の取得に失敗:", error);
       }
     };
-  
+
     getQuests();
-  }, [selectedDialect]); // 方言が変わるたびにクエストを再取得
-  
-  
+  }, [selectedDialect]);
 
   return (
-    <Box minH="100vh" p="4" pb="80px">
-      {/* ヘッダー */}
-      <Flex justify="center" align="center" mt="10">
-        <HStack spacing="4">
+    <Box minH="100vh" pb="80px">
+      {/* ヘッダー（長さを調整） */}
+      <HStack
+        ref={headerRef}
+        w="full"
+        h="100px"
+        as="header"
+        justifyContent="center"
+        background="headerAlpha.600"
+        backdropBlur="5px"
+        backdropFilter="auto"
+        backdropSaturate="180%"
+        boxShadow="md"
+        px="lg"
+        position="fixed"
+        top={0}
+        zIndex={10}
+      >
+        <HStack spacing="6">
           {selectedDialect && (
             <Box onClick={onOpen} _hover={{ cursor: "pointer", transform: "scale(1.08)", transition: "0.2s ease-in-out" }}>
               <StatusBadge imgSrc={iconMapping[selectedDialect.name]} count={4} />
@@ -80,7 +103,11 @@ const Home = () => {
           <StatusBadge imgSrc="/assets/icon-fire.png" count={169} />
           <StatusBadge imgSrc="/assets/icon-heart.png" count={4} />
         </HStack>
-      </Flex>
+      </HStack>
+
+
+      {/* ヘッダーの高さを確保するためのスペーサー */}
+      <Box h="80px" />
 
       {/* 吹き出し */}
       <Flex justify="center" mt="12">
