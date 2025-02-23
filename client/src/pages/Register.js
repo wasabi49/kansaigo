@@ -40,9 +40,11 @@ const Register = () => {
 
     console.log("アカウント登録:", formData);
 
-    setTimeout(async () => {
+    try {
       await register(formData.email, formData.password);
-
+    } catch (error) {
+      setError("登録に失敗しました: " + error.message);
+    } finally {
       setLoading(false);
     }
   };
