@@ -49,4 +49,4 @@ COPY --from=client-build /app/build /app/client/build
 ENV NODE_ENV=production
 
 # サーバーを起動
-CMD ["node", "/app/server/src/app.js"]
+CMD ["node", "/2025_24/server/src/app.js"]
