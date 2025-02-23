@@ -24,7 +24,7 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/test/login" element={<Login />} /> {/* testフォルダのLoginルートを追加 */}
+        <Route path="/test/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/question/:id" element={<Question />} />
         <Route path="/result" element={<Result />} />
