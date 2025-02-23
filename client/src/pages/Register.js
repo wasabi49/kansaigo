@@ -1,7 +1,8 @@
 import { useState } from "react"; 
 import { Box, Flex, VStack, Input, Button, Text, Image, IconButton, Link } from "@yamada-ui/react";
 import { useNavigate } from "react-router-dom";
-import { api } from "../api/api";
+import { register } from "../api/api";
+
 
 const Register = () => {
   const navigate = useNavigate();
@@ -37,21 +38,11 @@ const Register = () => {
       return;
     }
 
-    console.log("送信データ:", formData); // デバッグ用
+    console.log("アカウント登録:", formData);
 
-    try {
-      // **APIにリクエストを送信**
-      const response = await api.post("/auth/local/register", {
-        mail_address: formData.email,
-        password: formData.password,
-      });
+    setTimeout(async () => {
+      await register(formData.email, formData.password);
 
-      console.log("登録成功:", response.data);
-      navigate("/login"); // 登録成功後にログインページへ遷移
-    } catch (error) {
-      console.error("登録エラー:", error.response);
-      setError(error.response?.data?.message || "登録に失敗しました");
-    } finally {
       setLoading(false);
     }
   };
