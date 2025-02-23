@@ -10,13 +10,19 @@ const Footer = () => {
       id="footer"
       position="fixed" 
       bottom="0" 
-      width="100%" 
+      width="100%"  
       bg="#226FA8" 
       p="3"
       color="white"
       boxShadow="md"
     >
-      <HStack justify="space-around">
+      <HStack 
+        justify="center" 
+        gap="15" 
+        maxWidth="500px" 
+        margin="0 auto"
+      >
+        {/* ホームボタン */}
         <IconButton 
           aria-label="Home"
           icon={<Home size={28} />}
@@ -26,15 +32,18 @@ const Footer = () => {
           _hover={{ bg: "rgba(255,255,255,0.2)" }}
           onClick={() => navigate("/")}
         />
+
+        {/* ランキングボタン（未実装のため無効化） */}
         <IconButton 
           aria-label="Ranking"
           icon={<Crown size={28} />}
           variant="ghost"
-          color="white"
+          color="gray.200" // 無効ボタンのため明るいグレー
           size="lg"
-          _hover={{ bg: "rgba(255,255,255,0.2)" }}
-          onClick={() => navigate("/ranking")}
+          isDisabled={true} // クリック無効化
         />
+
+        {/* プロフィールボタン */}
         <IconButton 
           aria-label="Profile"
           icon={<User size={28} />}
