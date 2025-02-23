@@ -4,7 +4,7 @@
       "dialect_mode_id": 1,
       "sequence_number": 1,
       "type": 1,
-      "question": "あの映画、「ほんま」泣けたわ。の「」内の関西弁の意味として最も適切なものは？",
+      "question": "あの映画、「ほんま」泣けたわ。の「」内の大阪弁の意味として最も適切なものは？",
       "choices": [
         {
           "id": 1,
@@ -32,7 +32,7 @@
       "dialect_mode_id": 1,
       "sequence_number": 2,
       "type": 1,
-      "question": "「どないしたん？」の「」内の関西弁の意味として最も適切なものは？",
+      "question": "「どないしたん？」の「」内の大阪弁の意味として最も適切なものは？",
       "choices": [
         {
           "id": 1,
@@ -60,7 +60,7 @@
       "dialect_mode_id": 1,
       "sequence_number": 3,
       "type": 1,
-      "question": "この店、「けったい」な雰囲気やな。の「」内の関西弁の意味として最も適切なものは？",
+      "question": "この店、「けったい」な雰囲気やな。の「」内の大阪弁の意味として最も適切なものは？",
       "choices": [
         {
           "id": 1,
@@ -88,7 +88,7 @@
       "dialect_mode_id": 1,
       "sequence_number": 4,
       "type": 1,
-      "question": "「ほな」、また明日な！の「」内の関西弁の意味として最も適切なものは？",
+      "question": "「ほな」、また明日な！の「」内の大阪弁の意味として最も適切なものは？",
       "choices": [
         {
           "id": 1,
@@ -116,7 +116,7 @@
       "dialect_mode_id": 1,
       "sequence_number": 5,
       "type": 1,
-      "question": "これ、「なおし」といて〜の「」内の関西弁の意味として最も適切なものは？",
+      "question": "これ、「なおし」といて〜の「」内の大阪弁の意味として最も適切なものは？",
       "choices": [
         {
           "id": 1,
