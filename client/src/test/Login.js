@@ -129,8 +129,7 @@ const Login = () => {
               color="blue.500"
               cursor="pointer"
               textDecoration="underline"
-              borderBottom="2px solid blue"
-              _hover={{ textDecoration: "none", borderBottom: "2px solid blue" }}
+              _hover={{ textDecoration: "none", textDecoration: "underline" }} // 下線を設定
               onClick={() => navigate("/register")}
             >
               新規登録する
