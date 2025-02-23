@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react"; 
 import { Box, Flex, VStack, Input, Button, Text, Image, IconButton, Link } from "@yamada-ui/react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,8 @@ const Register = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,9 +21,30 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    // フィールドの入力チェック
+    if (!formData.email || !formData.password || !formData.confirmPassword) {
+      setError("すべてのフィールドを入力してください");
+      setLoading(false);
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError("パスワードが一致しません");
+      setLoading(false);
+      return;
+    }
+
     console.log("アカウント登録:", formData);
-    navigate("/login");
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/login");
+    }, 1000);
   };
+
+  // 入力チェック
+  const isFormValid = formData.email && formData.password && formData.confirmPassword;
 
   return (
     <Flex justify="center" align="center" minH="100vh" p={{ base: "4", md: "8" }}>
@@ -29,15 +52,10 @@ const Register = () => {
 
         {/* 吹き出しタイトル */}
         <Box position="relative" width="250px" height="auto" mx="auto">
-          <Image 
-            src="/assets/bubble1.png"
-            alt="吹き出し"
-            width="100%"
-            height="auto"
-          />
+          <Image src="/assets/bubble1.png" alt="吹き出し" width="100%" height="auto" />
           <Box
             position="absolute"
-            top="35%"
+            top="40%"
             left="50%"
             transform="translate(-50%, -50%)"
             width="100%"
@@ -45,24 +63,29 @@ const Register = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <Text fontSize="md" fontWeight="bold" textAlign="center" color="black">
+            <Text
+              fontSize="md"
+              fontWeight="bold"
+              textAlign="center"
+              color="black"
+              whiteSpace="nowrap"
+              maxWidth="80%"
+            >
               アカウント登録する
             </Text>
           </Box>
         </Box>
 
         {/* フォームコンテナ */}
-        <Box
-          bg="white"
-          p="6"
-          borderRadius="lg"
-          boxShadow="lg"
-          border="2px solid black"
-          width="100%"
-          maxW="400px"
-          mx="auto"
-        >
+        <Box bg="white" p="6" borderRadius="lg" boxShadow="lg" border="2px solid black" width="100%" maxW="400px" mx="auto">
           <VStack spacing="4" as="form" onSubmit={handleSubmit} align="center" width="100%">
+
+            {/* エラーメッセージ */}
+            {error && (
+              <Text color="red.500" fontSize="sm" fontWeight="bold">
+                {error}
+              </Text>
+            )}
 
             {/* メールアドレス */}
             <Flex align="center" border="2px solid black" borderRadius="md" p="2" width="100%" height="50px">
@@ -106,6 +129,7 @@ const Register = () => {
                 }
                 aria-label="パスワード表示切り替え"
                 variant="ghost"
+                _hover={{ bg: "transparent" }}
                 onClick={() => setShowPassword(!showPassword)}
               />
             </Flex>
@@ -135,6 +159,7 @@ const Register = () => {
                 }
                 aria-label="パスワード確認表示切り替え"
                 variant="ghost"
+                _hover={{ bg: "transparent" }}
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               />
             </Flex>
@@ -142,18 +167,20 @@ const Register = () => {
             {/* 登録ボタン */}
             <Button
               type="submit"
-              bg="orange.400"
+              bg={isFormValid ? "orange.400" : "#C1C1C1"}
               color="white"
               borderRadius="full"
               width="100%"
               size="lg"
-              _hover={{ bg: "orange.500" }}
+              _hover={{ bg: isFormValid ? "orange.500" : "#C1C1C1" }}
               border="2px solid black"
+              isDisabled={!isFormValid || loading}
+              isLoading={loading}
             >
               登録する
             </Button>
 
-            {/* ログイン案内（改行） */}
+            {/* ログイン案内 */}
             <Text fontSize="sm" color="gray.600" textAlign="center">
               既にアカウントをお持ちですか？
             </Text>
@@ -163,7 +190,8 @@ const Register = () => {
               color="blue.500" 
               cursor="pointer"
               textDecoration="underline"
-              onClick={() => navigate("/test/login")}
+              _hover={{ textDecoration: "none", textDecoration: "underline" }}
+              onClick={() => navigate("/login")}
             >
               ログインする
             </Link>
