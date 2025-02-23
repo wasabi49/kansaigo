@@ -1,6 +1,7 @@
 import { useState } from "react"; 
 import { Box, Flex, VStack, Input, Button, Text, Image, IconButton, Link } from "@yamada-ui/react";
 import { useNavigate } from "react-router-dom";
+import { register } from "../api/api";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -37,7 +38,9 @@ const Register = () => {
     }
 
     console.log("アカウント登録:", formData);
-    setTimeout(() => {
+
+    setTimeout(async () => {
+      await register(formData.email, formData.password);
       setLoading(false);
       navigate("/login");
     }, 1000);

@@ -11,6 +11,10 @@ export const login = async (email, password) => {
     return api.post("/auth/local/login", { mail_address: email, password });
 };
 
+export const register = async (email, password) => {
+    return api.post("/auth/local/register", { mail_address: email, password });
+};
+
 export const fetchDialects = async () => {
     return api.get("/dialects"); // 認証情報を送るため、`api.js` 内の `withCredentials: true` を利用
 };
