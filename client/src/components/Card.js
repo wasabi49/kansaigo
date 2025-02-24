@@ -11,6 +11,7 @@ const Card = ({ title }) => {
       maxWidth={{ base: "600px", md: "90%" }} // PC: 600px, スマホ: 90%
       textAlign="center"
       mx="auto"
+      border="3px solid black"
     >
       <Text fontSize="lg" fontWeight="bold">{title}</Text>
     </Box>

@@ -1,15 +1,15 @@
 // Button.js
 import { Button } from "@yamada-ui/react";
 
-const CustomButton = ({ 
-  text, 
-  bgColor = "#FFD015", 
-  textColor = "black", 
+const CustomButton = ({
+  text,
+  bgColor = "#FFD015",
+  textColor = "black",
   hoverColor = "#EDBD00",
-  onClick, 
-  leftIcon, 
-  isDisabled = false, 
-  selected = false 
+  onClick,
+  leftIcon,
+  isDisabled = false,
+  selected = false
 }) => {
   return (
     <Button
@@ -20,10 +20,11 @@ const CustomButton = ({
       isDisabled={isDisabled}
       onClick={onClick}
       leftIcon={leftIcon}
-      width="100%" 
+      width="100%"
       maxWidth={{ base: "400px", md: "80%" }}
       mx="auto"
-      my="2" // 各ボタンに個別の余白を追加
+      my="2"
+      border="2px solid black"
       _hover={{
         bg: isDisabled ? bgColor : hoverColor,
         transform: isDisabled ? "none" : "scale(1.05)",
