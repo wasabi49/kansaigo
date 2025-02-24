@@ -95,7 +95,7 @@ const Result = () => {
           padding: "16px 24px",
           fontSize: "20px",
           fontWeight: "bold",
-          border: "none",
+          border: "2px solid rgb(10, 44, 70)",
           borderRadius: "12px", // 角丸デザイン
           cursor: "pointer",
           transition: "all 0.3s ease-in-out",
