@@ -13,12 +13,13 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.5"
   },
   "dependencies": {
-    "lucide-react": "^0.475.0",
     "@types/connect-sqlite3": "^0.9.5",
     "@types/express": "^5.0.0",
-    "@types/express-session": "^1.18.1"
+    "@types/express-session": "^1.18.1",
+    "lucide-react": "^0.475.0"
   }
 }

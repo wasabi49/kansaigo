@@ -1,4 +1,4 @@
-services:
+services: 
   server:
     image: node:latest
     working_dir: /app
@@ -8,6 +8,8 @@ services:
       - sqlite_storage:/app/database
     ports:
       - "${BACKEND_PORT:-8080}:3000"
+    env_file:  # ← 追加: ルートの .env ファイルを適用
+      - .env
     environment:
       - NODE_ENV=${NODE_ENV:-development}
       - FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-http://localhost:3000}
@@ -33,6 +35,8 @@ services:
       - client_node_modules:/app/node_modules
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
+    env_file:  # ← 追加: ルートの .env ファイルを適用
+      - .env
     environment:
       - WATCHPACK_POLLING=true
       - NODE_ENV=${NODE_ENV:-development}
