@@ -46,3 +46,6 @@ database/
 # OS関連
 .DS_Store
 Thumbs.db
+
+server/database/app.sqlite
+server/database/sessions.sqlite

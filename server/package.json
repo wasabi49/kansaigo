@@ -6,7 +6,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "seed": "ts-node src/scripts/seed.ts",
-    "vercel-build": "npm install"
+    "vercel-build": "npm install",
+    "postinstall": "npm install --save-dev @types/express @types/cors @types/express-session @types/passport @types/connect-sqlite3 @types/passport-google-oauth20 @types/passport-local @types/multer"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -23,7 +24,8 @@
     "passport-local": "^1.0.0",
     "react-lottie-player": "^2.1.0",
     "sharp": "^0.33.5",
-    "sqlite": "^5.1.1"
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "@types/connect-sqlite3": "^0.9.5",
