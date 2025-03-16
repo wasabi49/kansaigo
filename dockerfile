@@ -54,8 +54,15 @@ COPY --from=client-build /app/client/build /app/server/public
 # データベースディレクトリを作成
 RUN mkdir -p /app/server/database
 
-# 環境変数の設定（NODE_ENVのみデフォルト値を設定）
+# 環境変数の設定
 ENV NODE_ENV=production
+ENV PORT=${BACKEND_PORT:-4000}
+ENV FRONTEND_ORIGIN=${FRONTEND_ORIGIN:-http://localhost:3000}
+ENV FRONTEND_PORT=${FRONTEND_PORT:-3000}
+ENV BACKEND_PORT=${BACKEND_PORT:-4000}
+ENV REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL:-http://localhost:4000}
+ENV SESSION_SECRET=${SESSION_SECRET:-change-me-in-production}
+ENV FRONT_URL=${FRONT_URL:-http://localhost:3000}
 
 # シードスクリプトを実行してからサーバーを起動
 CMD cd /app/server && npx ts-node src/scripts/seed.ts && node dist/app.js
