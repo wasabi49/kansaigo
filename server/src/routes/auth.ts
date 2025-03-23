@@ -7,7 +7,7 @@ import { loginRateLimiter, resetLoginAttempts } from '../middleware/rateLimiter'
 import { isAuthenticated } from '../middleware/auth';
 
 const router = express.Router();
-const FRONT_URL = process.env.FRONT_URL || "http://localhost:3000";
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 
 // Googleログイン認証のエンドポイント
 router.get(
@@ -72,7 +72,7 @@ router.post(
           if (err) {
             res.status(500).json({ message: err.message });
           }else{
-            res.status(201).json({ message: "User created and logged in" });
+            res.status(201).redirect(`${FRONTEND_URL}/`);
           }
         });
       }

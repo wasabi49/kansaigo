@@ -38,7 +38,7 @@ const Register = () => {
       return;
     }
 
-    console.log("アカウント登録:", formData);
+
 
     try {
       await register(formData.email, formData.password);
