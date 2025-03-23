@@ -20,7 +20,7 @@ export function getConfig(): Config {
     'GOOGLE_CLIENT_SECRET',
     'GOOGLE_CALLBACK_URL',
     'SESSION_SECRET',
-    'FRONT_URL'
+    'FRONTEND_URL'
   ];
 
   for (const envVar of requiredEnvVars) {
@@ -39,7 +39,7 @@ export function getConfig(): Config {
       secret: process.env.SESSION_SECRET!
     },
     frontend: {
-      url: process.env.FRONT_URL!
+      url: process.env.FRONTEND_URL!
     }
   };
 } 
