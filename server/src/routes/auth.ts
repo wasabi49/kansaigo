@@ -88,15 +88,15 @@ router.post(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: `${FRONT_URL}/login`,
-    successRedirect: `${FRONT_URL}/`,
+    failureRedirect: `${FRONTEND_URL}/login`,
+    successRedirect: `${FRONTEND_URL}/`,
   })
 );
 
 // ログアウト
 router.get("/logout", isAuthenticated, (req: Request, res: Response) => {
   req.logout(() => {
-    res.redirect(`${FRONT_URL}/login`);
+    res.redirect(`${FRONTEND_URL}/login`);
   });
 });
 
