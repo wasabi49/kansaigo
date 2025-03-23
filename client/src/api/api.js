@@ -5,6 +5,12 @@ const BASE_URL = process.env.REACT_APP_BACKEND_URL; // バックエンドのURL
 export const api = axios.create({
     baseURL: BASE_URL,
     withCredentials: true, // セッション情報を送るため必須
+    headers: {
+        'Access-Control-Allow-Origin': process.env.REACT_APP_BACKEND_URL,
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Credentials': 'true'
+    }
 });
 
 export const login = async (email, password) => {
@@ -29,6 +35,7 @@ export const fetchQuestDetails = async (questId) => {
 
 export const submitAnswer = async (questId, answerId) => {
     console.log("送信するデータ:", { answer: answerId }); // IDを送る
+
     return api.post(`/quests/${questId}/answer`, { answer: answerId });
   };
   
