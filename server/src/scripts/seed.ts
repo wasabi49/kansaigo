@@ -237,7 +237,7 @@ async function seedData(db: Database) {
       // 認証情報テーブルに追加
       await db.run(
         'INSERT INTO credentials (user_id, mail_address, password_hash) VALUES (?, ?, ?)',
-        [testUser.id, 'a', passwordHash]
+        [testUser.id, 'a@a', passwordHash]
       );
 
       console.log('テストユーザーの認証情報を追加しました');
