@@ -17,6 +17,12 @@
       "mail_address": "sato@example.com",
       "current_streak": 5,
       "current_break": 0
+    },
+    {
+      "name": "テストユーザー",
+      "mail_address": "a",
+      "current_streak": 0,
+      "current_break": 0
     }
   ]
 } 

@@ -228,6 +228,21 @@ async function seedData(db: Database) {
       [1, 'google']
     );
 
+    // テストユーザーのためのパスワード認証情報を追加（メールアドレス: a, パスワード: a）
+    const testUser = await db.get('SELECT id FROM users WHERE mail_address = ?', ['a']);
+    if (testUser) {
+      // パスワードをハッシュ化
+      const passwordHash = await bcrypt.hash('a', 10);
+      
+      // 認証情報テーブルに追加
+      await db.run(
+        'INSERT INTO credentials (user_id, mail_address, password_hash) VALUES (?, ?, ?)',
+        [testUser.id, 'a', passwordHash]
+      );
+
+      console.log('テストユーザーの認証情報を追加しました');
+    }
+
     await db.run('COMMIT');
     console.log('データの登録が完了しました');
 
